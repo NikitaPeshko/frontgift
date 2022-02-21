@@ -1,5 +1,10 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 import GiftServices from "../services/GiftServices";
+import { createBrowserHistory } from "history";
+
+
+
 
 
 class ListGift extends Component {
@@ -10,6 +15,8 @@ class ListGift extends Component {
             gifts:[],
 
         }
+       // this.addGift = this.addGift.bind(this);
+    
     }
 
     componentDidMount(){
@@ -20,10 +27,23 @@ class ListGift extends Component {
         
     }
 
+    addGift=()=>{
+    
+        
+      //  this.props.history.push('/add-gift');
+        const history = createBrowserHistory();
+        history.push('/add-gift')
+       
+    }
+
     render(){
         return(
             <div>
                 <h2 className="name-of-table">List of Gifts</h2>
+                <div className = "row">
+                    <button className="btn btn-primary" onClick={this.addGift}>Add Employee</button>
+                 </div>
+
                 <div className="row">
                     <table className="table table-striped table-bordered">
                         
