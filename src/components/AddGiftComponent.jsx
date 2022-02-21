@@ -1,5 +1,6 @@
 import React,{Component} from "react";
 import { createBrowserHistory } from "history";
+import GiftServices from "../services/GiftServices";
 
 
 
@@ -28,6 +29,11 @@ class AddGiftComponent extends Component{
         let gift = {name: this.state.name, discription: this.state.discription, price: this.state.price, duration: this.state.duration,
             createDate: this.state.createDate, lastUpdateDate: this.state.lastUpdateDate};
         console.log('gift => ' + JSON.stringify(gift));
+
+        GiftServices.addGift(gift).then(res=>{
+            const history = createBrowserHistory();
+            history.push('/gifts');
+        });
     }
 
  

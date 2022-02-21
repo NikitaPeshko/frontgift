@@ -10,6 +10,10 @@ class GiftService{
         return axios.get(URL_FOR_POSTS);
     }
 
+    addGift(gift){
+        return axios.post(URL_FOR_POSTS,gift);
+    }
+
 }
 
 
