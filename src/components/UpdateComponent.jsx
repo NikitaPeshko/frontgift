@@ -2,16 +2,18 @@ import React,{Component} from "react";
 import { createBrowserHistory } from "history";
 import GiftServices from "../services/GiftServices";
 import TagComponent from "./TagComponent";
+import { useParams,useSearchParams,match } from "react-router-dom";
 
 
 
-class AddGiftComponent extends Component{
+
+class UpdateComponent extends Component{
     constructor(props) {
         super(props)
 
         this.state = {
 
-         
+            id:0,
             name: '',
             discription: '',
             price: '',
@@ -24,19 +26,50 @@ class AddGiftComponent extends Component{
         }
         this.changeNameHandler = this.changeNameHandler.bind(this);
         this.changeDiscriptionHandler = this.changeDiscriptionHandler.bind(this);
+        this.updateGift=this.updateGift.bind(this);
       
     }
+    componentDidMount(){
+        
+        GiftServices.getGiftById(this.state.id).then(
+            (res)=>{
+                let gift=res.data;
+                console.log(gift);
+                this.setState({name:gift.name,
+                    discription:gift.discription,
+                    price:gift.price,
+                    duration:gift.duration,
+                    createDate:gift.createDate,
+                    lastUpdateDate:gift.lastUpdateDate,
+                    
+                })
+            }
+        )
+    }
 
-    saveGift = (e) => {
+    
+
+    updateGift = (e) => {
+        
         e.preventDefault();
         let gift = {name: this.state.name, discription: this.state.discription, price: this.state.price, duration: this.state.duration,
             createDate: this.state.createDate, lastUpdateDate: this.state.lastUpdateDate,listOfTag:this.state.tags};
         console.log('gift => ' + JSON.stringify(gift));
-
-        GiftServices.addGift(gift).then(res=>{
-            const history = createBrowserHistory();
-            history.push('/gifts');
+        console.log('id => ' + JSON.stringify(this.state.id));
+       
+        GiftServices.updateEmployee(gift, this.state.id).then( res => {
+            this.props.history.push('/gifts');
         });
+        
+    }
+
+    loadIdFromPath=()=>{
+        
+        const {id}=useParams();
+        alert(id);
+      //  this.setState({id:params.id});
+
+
     }
 
  
@@ -150,10 +183,11 @@ class AddGiftComponent extends Component{
                                             })}
                                             
                                         </div>
+                                        <input type="button" onClick={this.loadIdFromPath()} value="Load" />
 
                                        
 
-                                        <button className="btn btn-success" onClick={this.saveGift}>Save</button>
+                                        <button className="btn btn-success" onClick={this.updateGift}>Save</button>
                                         <button className="btn btn-danger" onClick={this.cancel.bind(this)} style={{marginLeft: "10px"}}>Cancel</button>
                                     </form>
                                 </div>
@@ -168,4 +202,4 @@ class AddGiftComponent extends Component{
 
 
 
-export default AddGiftComponent
+export default UpdateComponent

@@ -18,9 +18,9 @@ class TagComponent extends Component{
 
     deleteTag=()=>{
 
-        alert(`Hello ${this.props.tag}`);
+        alert(`Вы уверены что хотите удалить ${this.props.tag}`);
         this.setState({class: 'deleted-tag '.concat(this.state.class)});
-        this.setState({count:1});
+        
         
 
     }

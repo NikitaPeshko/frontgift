@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams,useSearchParams } from "react-router-dom";
 import GiftServices from "../services/GiftServices";
 import { createBrowserHistory } from "history";
 
@@ -34,6 +34,18 @@ class ListGift extends Component {
         const history = createBrowserHistory();
         history.push('/add-gift')
        
+
+
+
+    }
+    editGift=(id)=>{
+       // const params = useParams();
+      //  const [searchParams, setSearchParams] = useSearchParams();
+       // console.log(params.id);
+      
+       const history = createBrowserHistory();
+        history.push(`/update-gift/${id}`);
+
     }
 
     render(){
@@ -58,7 +70,7 @@ class ListGift extends Component {
                                 <th>Duration</th>
                                 <th>Create date</th>
                                 <th>Last update date</th>
-                            
+                                <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -72,6 +84,10 @@ class ListGift extends Component {
                                         <td>{gift.duration}</td>
                                         <td>{gift.createDate}</td>
                                         <td>{gift.lastUpdateDate}</td>
+                                        <td>
+                                            <Link className="btn btn-info" to={`/update-gift/${gift.id}`}>Edit</Link>
+                                            
+                                        </td>
                                     </tr>
                                 )
                             }
