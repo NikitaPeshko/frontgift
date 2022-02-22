@@ -1,6 +1,7 @@
 import React,{Component} from "react";
 import { createBrowserHistory } from "history";
 import GiftServices from "../services/GiftServices";
+import TagComponent from "./TagComponent";
 
 
 
@@ -17,6 +18,8 @@ class AddGiftComponent extends Component{
             duration:'',
             createDate:'',
             lastUpdateDate:'',
+            tags:[],
+            currentTag:'',
 
         }
         this.changeNameHandler = this.changeNameHandler.bind(this);
@@ -27,7 +30,7 @@ class AddGiftComponent extends Component{
     saveGift = (e) => {
         e.preventDefault();
         let gift = {name: this.state.name, discription: this.state.discription, price: this.state.price, duration: this.state.duration,
-            createDate: this.state.createDate, lastUpdateDate: this.state.lastUpdateDate};
+            createDate: this.state.createDate, lastUpdateDate: this.state.lastUpdateDate,listOfTag:this.state.currentTag};
         console.log('gift => ' + JSON.stringify(gift));
 
         GiftServices.addGift(gift).then(res=>{
@@ -57,6 +60,29 @@ class AddGiftComponent extends Component{
 
     changeDurationHandler= (event) => {
         this.setState({duration: event.target.value});
+    }
+
+
+    changeTagHandler= (event) => {
+        this.setState({currentTag: event.target.value});
+        console.log(this.state.currentTag);
+    }
+
+    addTag(){
+        let curtag=this.state.currentTag;
+        console.log(curtag);
+        // let masTag=this.state.tags.slice();
+        // console.log(masTag);
+        // masTag.push(curtag);
+        // console.log(masTag);
+        let masTag=this.state.tags;
+        masTag.push(curtag);
+         console.log(masTag);
+        this.setState({tags:masTag})
+    
+        console.log(this.state.tags);
+
+
     }
 
     cancel(){
@@ -96,6 +122,28 @@ class AddGiftComponent extends Component{
                                             <input placeholder="Duration:exp 5" name="duration" className="form-control" 
                                                 value={this.state.duration} onChange={this.changeDurationHandler}/>
                                         </div>
+
+
+                                        <div className = "form-group">
+                                            <label> Tag name: </label>
+                                            <input placeholder="tag name" name="tag" className="form-control" 
+                                                value={this.state.currentTag} onChange={this.changeTagHandler}/>
+
+                                            <input type="button" onClick={this.addTag.bind(this)} value="Отправить" />
+                                               
+                                    
+                                        </div>
+                                        <div>
+                                    
+                                            {this.state.tags.map(tag=>{
+                                                
+                                                return <TagComponent tag={tag}/>
+                                                
+                                            })}
+                                            
+                                        </div>
+
+                                       
 
                                         <button className="btn btn-success" onClick={this.saveGift}>Save</button>
                                         <button className="btn btn-danger" onClick={this.cancel.bind(this)} style={{marginLeft: "10px"}}>Cancel</button>

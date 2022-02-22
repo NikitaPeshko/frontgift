@@ -38,9 +38,9 @@
 }
 
 .footer{
-  position:absolute;
+  position:relative;
   background-color: black;
-  height: 90px;
+  height: 70px;
   text-align: center;
   bottom: 0;
   width: 100%;
@@ -49,5 +49,13 @@
 }
 .page-not-found{
   font-size: 55px;
+}
+
+.delete-tag{
+  color:red;
+  margin:20px;
+}
+.deleted-tag{
+  display: none;
 }
 

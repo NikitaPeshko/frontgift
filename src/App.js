@@ -21,6 +21,7 @@ function App() {
               <Route path="*" element={<ErrorComponent/>}></Route>
             </Routes>
           </div>
+          
           <FooterComponent/>
       
       </Router>
