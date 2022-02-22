@@ -62,16 +62,6 @@ class UpdateComponent extends Component{
         });
         
     }
-
-    loadIdFromPath=()=>{
-        
-        const {id}=useParams();
-        alert(id);
-      //  this.setState({id:params.id});
-
-
-    }
-
  
    
     
@@ -125,10 +115,7 @@ class UpdateComponent extends Component{
     deleteTag=()=>{
 
         console.log(this);
-
-        
-      
-        
+  
 
     }
 
