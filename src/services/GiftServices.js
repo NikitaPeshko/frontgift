@@ -4,11 +4,16 @@ import axios from "axios";
 
 const URL_FOR_POSTS='http://localhost:8080/gifts';
 const URL_FOR_UPDATE_PRICE='http://localhost:8080/gifts/changeprice'
+
 class GiftService{
 
 
     getGifts(){
         return axios.get(URL_FOR_POSTS);
+    }
+
+    getGiftsWithParam(content,page){
+        return axios.get(URL_FOR_POSTS+'?content='+content+'&page='+page);
     }
 
     addGift(gift){
