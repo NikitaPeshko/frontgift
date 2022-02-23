@@ -2,7 +2,8 @@ import axios from "axios";
 
 
 
-const URL_FOR_POSTS='http://localhost:8080/gifts'
+const URL_FOR_POSTS='http://localhost:8080/gifts';
+const URL_FOR_UPDATE_PRICE='http://localhost:8080/gifts/changeprice'
 class GiftService{
 
 
@@ -17,8 +18,8 @@ class GiftService{
     getGiftById(giftId){
         return axios.get(URL_FOR_POSTS+'/'+giftId);
     }
-    updateEmployee(employee, employeeId){
-        return axios.put(URL_FOR_POSTS + '/' + employeeId, employee);
+    updateEmployee(newprice, giftId){
+        return axios.put(URL_FOR_UPDATE_PRICE + '/' + giftId+'?price='+newprice);
     }
 
     deleteEmployee(employeeId){

@@ -42,7 +42,7 @@ const Tempcomponent=()=>{
         console.log('gift => ' + JSON.stringify(gift));
         console.log('id => ' + JSON.stringify(id));
        
-        GiftServices.updateEmployee(gift, id).then( res => {
+        GiftServices.updateEmployee(gift.price, id).then( res => {
             this.props.history.push('/gifts');
         });
         
@@ -131,7 +131,7 @@ const Tempcomponent=()=>{
                                     <div className = "form-group">
                                         <label> Price: </label>
                                         <input placeholder="Price" name="price" className="form-control" 
-                                            value={price} onChange={changePriceHandler}/>
+                                            value={price} onChange={changePriceHandler}  />
                                     </div>
                                     <div className = "form-group">
                                         <label> Duration: </label>
