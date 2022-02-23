@@ -18,7 +18,7 @@ class GiftService{
     getGiftById(giftId){
         return axios.get(URL_FOR_POSTS+'/'+giftId);
     }
-    updateEmployee(newprice, giftId){
+    updateGift(newprice, giftId){
         return axios.put(URL_FOR_UPDATE_PRICE + '/' + giftId+'?price='+newprice);
     }
 

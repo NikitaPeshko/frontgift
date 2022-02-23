@@ -15,6 +15,7 @@ function ShowGift(props){
     const [lastUpdateDate, setLastUpdateDate] = useState();
     const [currentTag, setCurrentTag] = useState('');
     const [tags, setTags] = useState(['nikita','masha']);
+    
 
 
 

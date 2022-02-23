@@ -3,6 +3,7 @@ import { createBrowserHistory } from "history";
 import GiftServices from "../services/GiftServices";
 import TagComponent from "./TagComponent";
 import { useParams,useSearchParams,match } from "react-router-dom";
+import Loader from "./Loader";
 
 
 
@@ -50,6 +51,7 @@ class UpdateComponent extends Component{
     
 
     updateGift = (e) => {
+       
         
         e.preventDefault();
         let gift = {name: this.state.name, discription: this.state.discription, price: this.state.price, duration: this.state.duration,
@@ -58,7 +60,9 @@ class UpdateComponent extends Component{
         console.log('id => ' + JSON.stringify(this.state.id));
        
         GiftServices.updateEmployee(gift, this.state.id).then( res => {
-            this.props.history.push('/gifts');
+            alert("all complete");
+            const history = createBrowserHistory();
+            history.push(`/gifts`);
         });
         
     }
@@ -176,6 +180,7 @@ class UpdateComponent extends Component{
 
                                         <button className="btn btn-success" onClick={this.updateGift}>Save</button>
                                         <button className="btn btn-danger" onClick={this.cancel.bind(this)} style={{marginLeft: "10px"}}>Cancel</button>
+                                        
                                     </form>
                                 </div>
                             </div>

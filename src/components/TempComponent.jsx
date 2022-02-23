@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom"
 import GiftServices from "../services/GiftServices";
 import TagComponent from "./TagComponent";
 import { createBrowserHistory } from "history";
+import Loader from "./Loader";
 
 
 
@@ -16,6 +17,7 @@ const Tempcomponent=()=>{
     const [lastUpdateDate, setLastUpdateDate] = useState();
     const [currentTag, setCurrentTag] = useState('');
     const [tags, setTags] = useState(['nikita','masha']);
+    const [loader,setLoader]=useState(false);
 
 
 
@@ -35,15 +37,26 @@ const Tempcomponent=()=>{
     }
     
     function updateGift (e){
-        
+        const history = createBrowserHistory();
         e.preventDefault();
         let gift = {name: name, discription: discription, price: price, duration: duration,
             createDate: createDate, lastUpdateDate: lastUpdateDate};
         console.log('gift => ' + JSON.stringify(gift));
         console.log('id => ' + JSON.stringify(id));
        
-        GiftServices.updateEmployee(gift.price, id).then( res => {
-            this.props.history.push('/gifts');
+        GiftServices.updateGift(gift.price, id).then( res => {
+            setTimeout(() => {
+                setTimeout(() => {
+                    setLoader(false);
+                    history.push(`/gifts/${id}`);
+                }, 5000);
+                setLoader(true);
+                
+            }, 1000);
+            
+            
+            
+            
         });
         
     }
@@ -166,6 +179,10 @@ const Tempcomponent=()=>{
 
                                     <button className="btn btn-success" onClick={updateGift}>Save</button>
                                     <button className="btn btn-danger" onClick={cancel} style={{marginLeft: "10px"}}>Cancel</button> 
+                                    <div className="loader-on-update">
+                                       {loader && <Loader/>}
+                                    </div>
+                                    
                                 </form>
                             </div>
                         </div>
