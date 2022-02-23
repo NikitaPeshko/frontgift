@@ -59,3 +59,20 @@
   display: none;
 }
 
+
+.image-card{
+  float: left;
+  
+  width: 300px;
+  height: 300px;
+  border:2px solid black;
+}
+.name-of-gift-on-card{
+  float: right;
+  margin:50px auto;
+  padding-right: 300px;
+  text-align: center;
+  
+  
+}
+

@@ -7,6 +7,7 @@ import ErrorComponent from './components/ErrorComponent';
 import AddGiftComponent from './components/AddGiftComponent';
 import UpdateComponent from './components/UpdateComponent';
 import Tempcomponent from './components/TempComponent';
+import ShowGift from './components/ShowGiftComponent';
 
 
 function App() {
@@ -20,8 +21,8 @@ function App() {
               <Route  path="/"  element={<ListGift/>}></Route>
               <Route path="/gifts" element={<ListGift/>}></Route>
               <Route path="/add-gift" element={<AddGiftComponent/>}></Route>
-              <Route path='/gift/:id' element={<Tempcomponent/>} ></Route>            
-              <Route path="/update-gift/:id" element={<UpdateComponent/>}></Route>
+              <Route path='/gifts/:id' element={<ShowGift/>} ></Route>            
+              <Route path="/update-gift/:id" element={<Tempcomponent/>}></Route>
               <Route path="*" element={<ErrorComponent/>}></Route>
             </Routes>
           </div>
