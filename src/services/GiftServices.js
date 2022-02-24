@@ -10,9 +10,11 @@ const URL_FOR_GET_USER_ONLY_ADMIN='http://localhost:8080/users'
 class GiftService{
 
     getUsers(token){
-        return axios.get(URL_FOR_GET_USER_ONLY_ADMIN,{headers: {
-            'Authorization': `Bearer  ${token}`
-          }});
+        return axios.get(URL_FOR_GET_USER_ONLY_ADMIN,{
+            headers:{
+                'Authorization':`Bearer ${token}`
+            }
+        });
     }
 
     getGifts(){

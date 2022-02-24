@@ -1,7 +1,11 @@
 import React, { Component } from "react";
 import { Link, useParams,useSearchParams } from "react-router-dom";
 import GiftServices from "../services/GiftServices";
+import {  } from "history";
+import authToken from "../auth/authToken";
+import { useHistory } from "react-router-dom";
 import { createBrowserHistory } from "history";
+
 
 
 
@@ -17,13 +21,28 @@ class ListUsers extends Component {
             numberPage:1,
 
         }
+
+        if(localStorage.getItem('jwtToken')==null){
+            const history=createBrowserHistory();
+            history.push('/login');
+            history.go('/login');
+
+            
+
+        }
        
     
     }
 
     componentDidMount(){
-        GiftServices.getUsers(this.state.countOfGift,this.state.numberPage).then((res)=>{
-            this.setState({users:res.data})
+        let token=localStorage.getItem("jwtToken");
+        console.log(token);
+        GiftServices.getUsers(token).then((res)=>{
+            let info=res.data;
+           
+            let users=info._embedded.userDTOList;
+            
+            this.setState({users:users})
 
         });
         
@@ -57,13 +76,14 @@ class ListUsers extends Component {
     }
 
     loadGiftsFromDb=(numberPage)=>{
-        GiftServices.getUsers(this.state.countOfGift,numberPage).then(res=>{
+        GiftServices.getUsers().then(res=>{
             if(res.data==0){
                 
                 this.setState({numberPage:numberPage-1})
                 return;
             
             }
+            console.log(res.data);
             
             this.setState({users:res.data})
             
@@ -94,9 +114,13 @@ class ListUsers extends Component {
         this.loadGiftsFromDb(numberPage);
     }
 
+
+    
+
     render(){
         return(
             <div>
+                
                 
                 <h2 className="name-of-table">List of Users</h2>
                 <div className = "row">
@@ -105,12 +129,7 @@ class ListUsers extends Component {
                  </div>
                 
                  <div className="row">
-                 <select value={this.state.countOfGift} class="form-select" aria-label="Default select example" onChange={this.countOfGidtOnPage}>
-                    <option selected value="5">5</option>
-                    <option value='10'>10</option>
-                    <option value="15">15</option>
-                    <option value="20">20</option>
-                 </select>
+              
                  
 
                  </div>
@@ -134,6 +153,7 @@ class ListUsers extends Component {
                             </tr>
                         </thead>
                         <tbody>
+                            
                             {
                                 this.state.users.map(
                                     user=>
@@ -144,7 +164,7 @@ class ListUsers extends Component {
                                         <td>{user.roleName}</td>
                                 
                                         <td>
-                                            <Link className="btn btn-info" to={`/update-gift/${user.id}`}>Edit</Link>
+                                            <Link className="btn btn-info" to={`/update-user/${user.id}`}>Edit</Link>
                                             
                                         </td>
                                     </tr>

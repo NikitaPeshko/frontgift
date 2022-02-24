@@ -1,7 +1,9 @@
 
 import React, { useState } from "react";
+import authToken from "../auth/authToken";
 import GiftServices from "../services/GiftServices";
 import Loader from "./Loader";
+import { createBrowserHistory } from "history";
 
 
 const LoginComponent=()=>{
@@ -23,6 +25,11 @@ const LoginComponent=()=>{
             let token=res.data.token;
             localStorage.setItem('jwtToken', token)
             console.log(token);
+            authToken(token);
+            const history=createBrowserHistory();
+            history.push('/gifts');
+            history.go();
+            
         });
        
  

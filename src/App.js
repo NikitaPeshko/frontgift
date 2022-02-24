@@ -24,7 +24,8 @@ function App() {
               <Route path="/users" element={<ListUsers/>}></Route>
               <Route path="/gifts" element={<ListGift/>}></Route>
               <Route path="/add-gift" element={<AddGiftComponent/>}></Route>
-              <Route path='/gifts/:id' element={<ShowGift/>} ></Route>            
+              <Route path='/gifts/:id' element={<ShowGift/>} ></Route>  
+
               <Route path="/update-gift/:id" element={<Tempcomponent/>}></Route>
               <Route path="/login" element={<LoginComponent/>}></Route>
               

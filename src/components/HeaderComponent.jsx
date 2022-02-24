@@ -16,6 +16,7 @@ class HeaderComponent extends Component{
     openLoginPage=()=>{
         const history=createBrowserHistory();
         history.push('/login');
+        history.go('/login');
 
     }
 
