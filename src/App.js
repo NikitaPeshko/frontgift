@@ -8,6 +8,8 @@ import AddGiftComponent from './components/AddGiftComponent';
 import UpdateComponent from './components/UpdateComponent';
 import Tempcomponent from './components/TempComponent';
 import ShowGift from './components/ShowGiftComponent';
+import LoginComponent from './components/LoginComponent';
+import ListUsers from './components/ListUsers';
 
 
 function App() {
@@ -19,10 +21,13 @@ function App() {
           <div className="container">
             <Routes>
               <Route  path="/"  element={<ListGift/>}></Route>
+              <Route path="/users" element={<ListUsers/>}></Route>
               <Route path="/gifts" element={<ListGift/>}></Route>
               <Route path="/add-gift" element={<AddGiftComponent/>}></Route>
               <Route path='/gifts/:id' element={<ShowGift/>} ></Route>            
               <Route path="/update-gift/:id" element={<Tempcomponent/>}></Route>
+              <Route path="/login" element={<LoginComponent/>}></Route>
+              
               <Route path="*" element={<ErrorComponent/>}></Route>
             </Routes>
           </div>

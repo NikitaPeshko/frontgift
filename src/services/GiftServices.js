@@ -4,12 +4,23 @@ import axios from "axios";
 
 const URL_FOR_POSTS='http://localhost:8080/gifts';
 const URL_FOR_UPDATE_PRICE='http://localhost:8080/gifts/changeprice'
+const URL_AUTH='http://localhost:8080/auth'
+const URL_FOR_GET_USER_ONLY_ADMIN='http://localhost:8080/users'
 
 class GiftService{
 
+    getUsers(token){
+        return axios.get(URL_FOR_GET_USER_ONLY_ADMIN,{headers: {
+            'Authorization': `Bearer  ${token}`
+          }});
+    }
 
     getGifts(){
         return axios.get(URL_FOR_POSTS);
+    }
+
+    authantification(credentials){
+        return axios.post(URL_AUTH,credentials);
     }
 
     getGiftsWithParam(content,page){
