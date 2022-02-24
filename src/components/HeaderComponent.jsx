@@ -8,9 +8,28 @@ class HeaderComponent extends Component{
 
 
         this.state={
+            logOutButton:true,
+            logInButton:true,
            
 
         }
+    }
+
+    componentDidMount(){
+        if(localStorage.getItem("jwtToken")==null){
+            this.setState({
+                logOutButton:false,
+                logInButton:true,
+            })
+
+        }else{
+            this.setState({
+                logOutButton:true,
+                logInButton:false,
+            })
+
+        }
+
     }
 
     openLoginPage=()=>{
@@ -19,6 +38,16 @@ class HeaderComponent extends Component{
         history.go('/login');
 
     }
+    logOut=()=>{
+        const history=createBrowserHistory();
+        history.push('/');
+        history.go('/');
+        localStorage.removeItem('jwtToken');
+
+    }
+
+
+    
 
 
     render(){
@@ -26,7 +55,15 @@ class HeaderComponent extends Component{
             <div>
                 <nav className="navbar navbar-expand-md navbar-dark bg-dark justify-content-between">
                    <div><p className="navbar-brand">Gift Certificate System</p></div> 
-                   <input type="button" class="btn btn-outline-success my-2 my-sm-0" onClick={this.openLoginPage} value='Log in'/>
+                   
+                   <div>
+                       {this.state.logInButton &&
+                        <input type="button" class="btn btn-outline-success my-2 my-sm-0" onClick={this.openLoginPage} value='Log in'/>}
+                        
+                        {this.state.logOutButton &&
+                        <input type="button" class="btn btn-outline-success my-2 my-sm-0" onClick={this.logOut} value='Log out'/>}
+                   </div>
+                  
                    
    
                 </nav>
