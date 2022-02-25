@@ -10,6 +10,7 @@ import Tempcomponent from './components/TempComponent';
 import ShowGift from './components/ShowGiftComponent';
 import LoginComponent from './components/LoginComponent';
 import ListUsers from './components/ListUsers';
+import CartComponent from './components/Cart';
 
 
 function App() {
@@ -25,6 +26,7 @@ function App() {
               <Route path="/gifts" element={<ListGift/>}></Route>
               <Route path="/add-gift" element={<AddGiftComponent/>}></Route>
               <Route path='/gifts/:id' element={<ShowGift/>} ></Route>  
+              <Route path='/cart' element={<CartComponent/>} ></Route>  
 
               <Route path="/update-gift/:id" element={<Tempcomponent/>}></Route>
               <Route path="/login" element={<LoginComponent/>}></Route>
