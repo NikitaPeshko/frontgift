@@ -1,5 +1,5 @@
 import { createElement, useState } from "react"
-import { useParams } from "react-router-dom"
+import { useParams,useSearchParams } from "react-router-dom"
 import GiftServices from "../services/GiftServices";
 import TagComponent from "./TagComponent";
 import { createBrowserHistory } from "history";
@@ -9,6 +9,7 @@ import Loader from "./Loader";
 
 const Tempcomponent=()=>{
     const {id}=useParams();
+    
     const [name, setName] = useState(getGift);
     const [discription, setDiscription] = useState();
     const [price, setPrice] = useState();

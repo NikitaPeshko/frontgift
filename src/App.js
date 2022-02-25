@@ -27,8 +27,11 @@ function App() {
               <Route path="/add-gift" element={<AddGiftComponent/>}></Route>
               <Route path='/gifts/:id' element={<ShowGift/>} ></Route>  
               <Route path='/cart' element={<CartComponent/>} ></Route>  
+              
 
               <Route path="/update-gift/:id" element={<Tempcomponent/>}></Route>
+              <Route path="/bye-gift/:id" element={<Tempcomponent/>}></Route>
+              <Route path="/delete-gift/:id" element={<Tempcomponent/>}></Route>
               <Route path="/login" element={<LoginComponent/>}></Route>
               
               <Route path="*" element={<ErrorComponent/>}></Route>

@@ -147,8 +147,11 @@ class ListGift extends Component {
                                         <td>{gift.lastUpdateDate}</td>
                                         <td>
                                             <Link className="btn btn-info" to={`/update-gift/${gift.id}`}>Edit</Link>
-                                            
+                                            <Link className="btn btn-danger" to={`/delete-gift/${gift.id}`}>Delete</Link> 
+                                
+                                            <Link className="btn btn-info" to={`/cart?id=${gift.id}`}>In cart</Link>
                                         </td>
+                                
                                     </tr>
                                 )
                             }

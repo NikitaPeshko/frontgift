@@ -1,5 +1,6 @@
 import React,{Component} from "react";
 import { createBrowserHistory } from "history";
+import { Link } from "react-router-dom";
 
 
 class HeaderComponent extends Component{
@@ -62,6 +63,7 @@ class HeaderComponent extends Component{
                         
                         {this.state.logOutButton &&
                         <input type="button" class="btn btn-outline-success my-2 my-sm-0" onClick={this.logOut} value='Log out'/>}
+                        <Link className="btn btn-info" to={'/cart'}>Cart</Link>
                    </div>
                   
                    
