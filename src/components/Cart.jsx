@@ -12,15 +12,16 @@ const CartComponent=()=>{
     
 
     const [param,setParam]=useSearchParams();
-    console.log(param.get('id'));
+  
     
     const [gifts,setGifts]=useState([]);
+    const [gift,setGift]=useState({});
   
 
     
 
     const [loader,setLoader]=useState(false);
-    const [totalAmount,setTotalAmount]=useState(countTotalAmount());
+    const [totalAmount,setTotalAmount]=useState(0);
     const [isEmptyCart,setIsEmptyCart]=useState(checkIfCartIsEmpty());
     
 
@@ -51,6 +52,80 @@ const CartComponent=()=>{
 
     }
 
+    function getGiftFromDB(id){
+        
+        GiftServices.getGiftById(id).then(res=>{
+            const giftInDB=res.data;
+            console.log(giftInDB);
+            setGifts(giftInDB);
+            
+        });
+       
+        
+       
+    }
+    
+    function getFromLocalStorage(){
+        let giftsString=localStorage.getItem("giftInCart");
+        let arrayGifts=giftsString.split('|||');
+        console.log(arrayGifts);
+        
+        return arrayGifts;
+       // return arrayGifts;
+
+       
+    }
+
+    function initGiftsInCart(){
+        let arrayGifts=getFromLocalStorage();
+        console.log(arrayGifts);
+        let str='';
+        let newArr=[];
+        for(let i=0;i<arrayGifts.length-1;i++){
+            str=arrayGifts[i];
+            console.log(`str=${str}`)
+            newArr.push(JSON.parse(str));
+        }
+        console.log(newArr);
+
+        setGifts(newArr);
+
+        
+       
+      
+        
+
+    }
+
+
+    function addGiftToCart(){
+        const cartGift=gift;
+        console.log(cartGift);
+        let cartArray=null;
+        cartArray=gifts.concat();
+        console.log(cartArray);
+        cartArray.push(cartGift);
+        setGifts(cartArray);
+
+    }
+
+    function addGifts2(){
+       
+        getGiftFromDB();
+        const cartGift=gift;
+        console.log(cartGift);
+        let cartArray=null;
+        cartArray=gifts.concat();
+        cartArray.push(cartGift);
+        setGifts(cartArray);
+      //  saveToLocalStorage();
+      //  let gift=gift;
+        
+       
+    
+
+    }
+
 
 
     
@@ -68,6 +143,8 @@ const CartComponent=()=>{
             
     }
 
+
+
  
   
            
@@ -79,7 +156,7 @@ const CartComponent=()=>{
                <div className = "container">
                     <div className = "row">
                         <div className = "card col-md-7 offset-md-3 offset-md-3">
-                        <input type='button'  className="btn btn-success" onClick={addGifts} value="Update cart"/>
+                        <input type='button'  className="btn btn-success" onClick={initGiftsInCart} value="Update cart"/>
                             <h3 className="text-center">Your gifts</h3>
                             <div className = "card-body">
                                 
@@ -89,7 +166,8 @@ const CartComponent=()=>{
                                 <form>
                                     {
                                         gifts.map(giftInCart=>{
-                                            console.log(giftInCart);
+                                            
+                                            
                                             return(
                                                 <div className = "form-group" style={{border:"1px solid black"}}>
                                                     <p>Name:{giftInCart.name}</p>

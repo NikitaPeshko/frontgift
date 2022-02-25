@@ -15,6 +15,7 @@ class ListGift extends Component {
             gifts:[],
             countOfGift:5,
             numberPage:1,
+            giftsInCart:[]
 
         }
        
@@ -68,6 +69,37 @@ class ListGift extends Component {
             this.setState({gifts:res.data})
             
         });
+
+    }
+
+    addTocart=(id,name,price)=>{
+        alert(id);
+        const obj={
+            id,
+            name,
+            price,
+        }
+        console.log(obj);
+      //  let gifts=this.state.giftsInCart;
+      //  let gifts=this.state.giftsInCart;
+      //  gifts.push(obj);
+        //gifts.push(id);
+      //  console.log(gifts);
+      //  this.setState({giftsInCart:gifts}) ;
+      //  console.log(giftInCart);
+        let newGift=JSON.stringify(obj);
+
+        let giftInCart=localStorage.getItem("giftInCart");
+        console.log(giftInCart);
+        newGift=newGift+"|||"+giftInCart;
+
+        
+
+        localStorage.setItem("giftInCart",newGift);
+        
+       
+
+
 
     }
 
@@ -148,8 +180,8 @@ class ListGift extends Component {
                                         <td>
                                             <Link className="btn btn-info" to={`/update-gift/${gift.id}`}>Edit</Link>
                                             <Link className="btn btn-danger" to={`/delete-gift/${gift.id}`}>Delete</Link> 
-                                
-                                            <Link className="btn btn-info" to={`/cart?id=${gift.id}`}>In cart</Link>
+                                            <input type='button' className="btn btn-info" onClick={this.addTocart.bind(this,gift.id,gift.name,gift.price)} value='In cart'/>
+                                            {/* <Link className="btn btn-info" to={`/cart?id=${gift.id}`}>In cart</Link> */}
                                         </td>
                                 
                                     </tr>
@@ -162,6 +194,9 @@ class ListGift extends Component {
                     <input type='button' className="btn btn-info" onClick={this.loadNextGift} value='Load next'/>
                     
                 </div>
+                
+
+                
 
 
             </div>
