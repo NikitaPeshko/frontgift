@@ -4,6 +4,7 @@ import authToken from "../auth/authToken";
 import GiftServices from "../services/GiftServices";
 import Loader from "./Loader";
 import { createBrowserHistory } from "history";
+import UserService from "../services/UserService";
 
 
 const LoginComponent=()=>{
@@ -15,6 +16,9 @@ const LoginComponent=()=>{
 
 
 
+
+    
+
     function logIn (event)  {
         let credentials={
             login:login,
@@ -23,17 +27,32 @@ const LoginComponent=()=>{
         console.log(credentials);
         GiftServices.authantification(credentials).then(res=>{
             let token=res.data.token;
-            localStorage.setItem('jwtToken', token)
-            console.log(token);
-            authToken(token);
-            const history=createBrowserHistory();
-            history.push('/gifts');
-            history.go();
+            alert(token);
+            if(token!==undefined){
+                localStorage.setItem('userLogin',login)
+                localStorage.setItem('jwtToken', token)
+                console.log(token);
+                authToken(token);
+                
+
+                
+
+                
+                               
+
+                const history=createBrowserHistory();
+                history.push('/gifts');
+                history.go();
+
+            }
+            
             
         });
        
  
      }
+
+     
 
 
      function changeLoginHandler(event) { 

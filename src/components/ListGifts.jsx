@@ -73,7 +73,7 @@ class ListGift extends Component {
     }
 
     addTocart=(id,name,price)=>{
-        alert(id);
+        alert(`Succesfully added to cart ${name}`);
         const obj={
             id,
             name,

@@ -44,6 +44,9 @@ class HeaderComponent extends Component{
         history.push('/');
         history.go('/');
         localStorage.removeItem('jwtToken');
+        localStorage.removeItem('UserAuthId');
+        localStorage.removeItem('userLogin');
+        localStorage.removeItem('giftInCart');
 
     }
 

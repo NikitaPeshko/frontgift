@@ -7,6 +7,8 @@ const URL_FOR_UPDATE_PRICE='http://localhost:8080/gifts/changeprice'
 const URL_AUTH='http://localhost:8080/auth'
 const URL_FOR_GET_USER_ONLY_ADMIN='http://localhost:8080/users'
 
+const URL_FOR_GET_FIND_USERID_BY_LOGIN='http://localhost:8080/users/finduseridbylogin';
+
 class GiftService{
 
     getUsers(token){
@@ -16,6 +18,10 @@ class GiftService{
             }
         });
     }
+
+    // getUserIDByLogin(login){
+    //     return axios.get(URL_FOR_GET_FIND_USERID_BY_LOGIN+'?login='+login);
+    // }
 
     getGifts(){
         return axios.get(URL_FOR_POSTS);

@@ -4,6 +4,7 @@ import GiftServices from "../services/GiftServices";
 import TagComponent from "./TagComponent";
 import { createBrowserHistory } from "history";
 import Loader from "./Loader";
+import UserService from "../services/UserService";
 
 
 
@@ -21,49 +22,21 @@ const CartComponent=()=>{
     
 
     const [loader,setLoader]=useState(false);
-    const [totalAmount,setTotalAmount]=useState(0);
-    const [isEmptyCart,setIsEmptyCart]=useState(checkIfCartIsEmpty());
+    const [totalAmount,setTotalAmount]=useState(countTotalAmount());
+    const [isEmptyCart,setIsEmptyCart]=useState(true);
+    const [userID,setUserID]=useState(getIdByLogin());
+
     
 
     function checkIfCartIsEmpty(){
         
         if(gifts.length!==0){
-            return false;
+            setIsEmptyCart(false);
         }else{
-            return true
+            setIsEmptyCart(true)
         }
     }
 
-
-
-    function addGifts(){
-        let person={
-            name:"dsjsdv",
-            price:3333
-        };
-       
-        console.log(gifts);
-        let newArray=gifts.concat();
-        console.log(newArray);
-        newArray.push(person)
-        console.log(newArray);
-        console.log(gifts);
-        setGifts(newArray);
-
-    }
-
-    function getGiftFromDB(id){
-        
-        GiftServices.getGiftById(id).then(res=>{
-            const giftInDB=res.data;
-            console.log(giftInDB);
-            setGifts(giftInDB);
-            
-        });
-       
-        
-       
-    }
     
     function getFromLocalStorage(){
         let giftsString=localStorage.getItem("giftInCart");
@@ -89,46 +62,13 @@ const CartComponent=()=>{
         console.log(newArr);
 
         setGifts(newArr);
-
-        
-       
-      
+        checkIfCartIsEmpty();
+        let amount=countTotalAmount();
+        setTotalAmount(amount);
         
 
     }
 
-
-    function addGiftToCart(){
-        const cartGift=gift;
-        console.log(cartGift);
-        let cartArray=null;
-        cartArray=gifts.concat();
-        console.log(cartArray);
-        cartArray.push(cartGift);
-        setGifts(cartArray);
-
-    }
-
-    function addGifts2(){
-       
-        getGiftFromDB();
-        const cartGift=gift;
-        console.log(cartGift);
-        let cartArray=null;
-        cartArray=gifts.concat();
-        cartArray.push(cartGift);
-        setGifts(cartArray);
-      //  saveToLocalStorage();
-      //  let gift=gift;
-        
-       
-    
-
-    }
-
-
-
-    
 
     function countTotalAmount(){  
             let amount =0; 
@@ -137,10 +77,49 @@ const CartComponent=()=>{
             gifts.map(priceOfAllGiftInCart=>{
                 
                 amount=amount+priceOfAllGiftInCart.price;
+                console.log(amount);
             })
 
             return amount;
             
+    }
+
+
+    function byeAllGift(){
+       
+        if(typeof(userID)!=='number'){
+            alert('You not log in. Log in to buy this gifts');
+            const history=createBrowserHistory();
+            history.push('/login');
+            history.go('/login');
+            return false;
+        }
+        let giftsToBye=gifts.concat();
+        let giftsIDs=[];
+        giftsToBye.map(gift=>{
+            giftsIDs.push(gift.id);
+
+
+        });
+        alert(giftsIDs);  
+   
+        UserService.byeGifts(giftsIDs, userID);
+        alert("Succsess");
+     
+        
+       
+
+    }
+    function getIdByLogin(){
+        const login=localStorage.getItem('userLogin');
+       UserService.getUserIDByLogin(login).then(res=>
+        {
+            const userID=res.data;
+            localStorage.setItem('UserAuthId',userID);
+            setUserID(userID);
+            
+        });
+
     }
 
 
@@ -186,7 +165,7 @@ const CartComponent=()=>{
                                     
                                     
 
-                                    {!isEmptyCart && <input type='button'  className="btn btn-success" value="Bye all this gifts"/>}
+                                    {!isEmptyCart && <input type='button'  className="btn btn-success" onClick={byeAllGift} value="Bye all this gifts"/>}
                                 </form>
 
 
