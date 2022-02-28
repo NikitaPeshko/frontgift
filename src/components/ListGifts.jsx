@@ -15,18 +15,45 @@ class ListGift extends Component {
             gifts:[],
             countOfGift:5,
             numberPage:1,
-            giftsInCart:[]
+            giftsInCart:[],
+            findFieldValue:''
 
         }
+
+        this.handleChange = this.handleChange.bind(this);
+        this.handleClickFind=this.handleClickFind.bind(this);
        
     
     }
 
     componentDidMount(){
         GiftServices.getGiftsWithParam(this.state.countOfGift,this.state.numberPage).then((res)=>{
+            
             this.setState({gifts:res.data})
 
         });
+        
+        
+    }
+
+
+    handleChange(event) {
+        this.setState({findFieldValue: event.target.value});
+           
+      }
+
+    handleClickFind(event){
+        this.setState({numberPage:1});
+        GiftServices.findGiftByName(this.state.findFieldValue,this.state.countOfGift,this.state.numberPage).then(res=>{
+            console.log(res.data);
+         
+            if(res.data.errCode!==undefined){
+                alert("No gift with this name");
+                return false;
+            }
+            this.setState({gifts:res.data})
+        });
+        event.preventDefault();
         
         
     }
@@ -110,6 +137,21 @@ class ListGift extends Component {
         this.loadGiftsFromDb(numberPage);
     }
 
+    loadNextGiftWithName=()=>{
+        let numberPage=this.state.numberPage;
+        let newPage=numberPage+1;
+        this.setState({numberPage:newPage});
+        GiftServices.findGiftByName(this.state.findFieldValue,this.state.countOfGift,this.state.numberPage).then(res=>{
+            console.log(res.data);
+         
+            if(res.data.errCode!==undefined){
+                alert("No gift with this name");
+                return false;
+            }
+            this.setState({gifts:res.data})
+        });
+    }
+
     loadPrevGift=()=>{
         let numberPage=this.state.numberPage;
         let newPage;
@@ -126,6 +168,31 @@ class ListGift extends Component {
         this.loadGiftsFromDb(numberPage);
     }
 
+    loadPrevGiftWithName=()=>{
+        let numberPage=this.state.numberPage;
+        let newPage;
+        if(numberPage==1){
+            newPage=numberPage;
+
+        }else{
+            newPage=numberPage-1;
+
+        }
+        console.log(newPage);
+        
+        this.setState({numberPage:newPage});
+        GiftServices.findGiftByName(this.state.findFieldValue,this.state.countOfGift,this.state.numberPage).then(res=>{
+            console.log(res.data);
+         
+            if(res.data.errCode!==undefined){
+                alert("No gift with this name");
+                return false;
+            }
+            this.setState({gifts:res.data})
+        });
+        
+    }
+
     render(){
         return(
             <div>
@@ -133,10 +200,27 @@ class ListGift extends Component {
                 <h2 className="name-of-table">List of Gifts</h2>
                 <div className = "row">
                      <input type="button" className="btn btn-primary" onClick={this.addGift} value='Add Gift'/>
-                
-                 </div>
+                    
+                 </div >
+
+               
+                 <form onSubmit={this.handleClickFind}>
+                    <input class="form-control form-control-lg" type="text" placeholder="Example Mersedes AMG or only Mers"
+                        value={this.state.findFieldValue} onChange={this.handleChange}/>
+                    <input type='submit' class="btn btn-primary mb-2"  value='found'/>
+
+
+                 </form>
+                    
+                 
+
+
+
+        
+                 
                 
                  <div className="row">
+                
                  <select value={this.state.countOfGift} class="form-select" aria-label="Default select example" onChange={this.countOfGidtOnPage}>
                     <option selected value="5">5</option>
                     <option value='10'>10</option>
@@ -190,8 +274,8 @@ class ListGift extends Component {
                         </tbody>
                     </table>
 
-                    <input type='button' className="btn btn-info" onClick={this.loadPrevGift} value='Load prev'/>
-                    <input type='button' className="btn btn-info" onClick={this.loadNextGift} value='Load next'/>
+                    <input type='button' className="btn btn-info" onClick={this.state.findFieldValue==''?this.loadPrevGift:this.loadPrevGiftWithName} value='Load prev'/>
+                    <input type='button' className="btn btn-info" onClick={this.state.findFieldValue==""?this.loadNextGift:this.loadNextGiftWithName} value='Load next'/>
                     
                 </div>
                 

@@ -8,6 +8,7 @@ const URL_AUTH='http://localhost:8080/auth'
 const URL_FOR_GET_USER_ONLY_ADMIN='http://localhost:8080/users'
 
 const URL_FOR_GET_FIND_USERID_BY_LOGIN='http://localhost:8080/users/finduseridbylogin';
+const URL_FOR_FIND_GIFT_BY_NAME='http://localhost:8080/gifts/findbyname?name=';
 
 class GiftService{
 
@@ -17,6 +18,12 @@ class GiftService{
                 'Authorization':`Bearer ${token}`
             }
         });
+    }
+
+    findGiftByName(name,content,page){
+        let url=URL_FOR_FIND_GIFT_BY_NAME+name+'&page='+page+'&content='+content;
+
+        return axios.get(url);
     }
 
     // getUserIDByLogin(login){
