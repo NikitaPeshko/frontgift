@@ -16,18 +16,22 @@ class ListGift extends Component {
             countOfGift:5,
             numberPage:1,
             giftsInCart:[],
-            findFieldValue:''
+            findFieldValue:'',
+            sortingMethod:'asc',
+            sortBy:'default',
+            sortingStatus:0,    //0-no sorting; 1 - asc ;2 - desc
 
         }
 
         this.handleChange = this.handleChange.bind(this);
         this.handleClickFind=this.handleClickFind.bind(this);
+        this.sorting=this.sorting.bind(this);
        
     
     }
 
     componentDidMount(){
-        GiftServices.getGiftsWithParam(this.state.countOfGift,this.state.numberPage).then((res)=>{
+        GiftServices.getGiftsWithParam(this.state.countOfGift,this.state.numberPage,this.state.sortBy,this.state.sortingMethod).then((res)=>{
             
             this.setState({gifts:res.data})
 
@@ -85,11 +89,11 @@ class ListGift extends Component {
     }
 
     loadGiftsFromDb=(numberPage)=>{
-        GiftServices.getGiftsWithParam(this.state.countOfGift,numberPage).then(res=>{
+        GiftServices.getGiftsWithParam(this.state.countOfGift,numberPage,this.state.sortBy,this.state.sortingMethod).then(res=>{
             if(res.data==0){
                 
                 this.setState({numberPage:numberPage-1})
-                return;
+                return false;
             
             }
             
@@ -193,6 +197,49 @@ class ListGift extends Component {
         
     }
 
+    sorting(event){
+        
+        switch (this.state.sortingStatus) {
+            case 0:
+                {
+                    event.target.style.backgroundColor='white';
+                    
+                    this.setState({sortingStatus:1});
+                    this.setState({sortBy:'name'});
+                    this.setState({sortingMethod:"asc"});
+                 //   alert(this.state.sortingStatus);
+                    this.loadGiftsFromDb(this.state.numberPage);
+
+                }
+              
+              break;
+            case 1:{
+                event.target.style.backgroundColor='red';
+                
+                this.setState({sortingStatus:2});
+                this.setState({sortBy:'name'});
+                this.setState({sortingMethod:"desc"});
+              //  alert(this.state.sortingStatus);
+                this.loadGiftsFromDb(this.state.numberPage);
+            }
+              
+              break;
+            case 2:{
+                event.target.style.backgroundColor='yellow';
+                
+                this.setState({sortingStatus:0});
+                this.setState({sortBy:'default'});
+                this.setState({sortingMethod:"asc"});
+           //     alert(this.state.sortingStatus);
+                this.loadGiftsFromDb(this.state.numberPage);
+            }
+              
+              break;
+            
+          }
+
+    }
+
     render(){
         return(
             <div>
@@ -234,14 +281,14 @@ class ListGift extends Component {
                 
 
                 <div className="row">
-                    <table className="table table-striped table-bordered">
+                    <table className="table table-striped table-bordered" >
                         
 
 
 
                         <thead>
                             <tr>
-                                <th>Gift name</th>
+                                <th onClick={this.sorting}>Gift name <strong className='hide-strela'>&#8593;</strong> <strong className='hide-strela'>&#8595;</strong> </th>
                                 <th>Discription</th>
                                 <th>Price</th>
                                 <th>Duration</th>

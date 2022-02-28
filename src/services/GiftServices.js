@@ -38,8 +38,9 @@ class GiftService{
         return axios.post(URL_AUTH,credentials);
     }
 
-    getGiftsWithParam(content,page){
-        return axios.get(URL_FOR_POSTS+'?content='+content+'&page='+page);
+    getGiftsWithParam(content,page,sortBy,sortingMethod){
+       // alert(URL_FOR_POSTS+'?content='+content+'&page='+page+'&sortby='+sortBy+'&sort='+sortingMethod)
+        return axios.get(URL_FOR_POSTS+'?content='+content+'&page='+page+'&sortby='+sortBy+'&sort='+sortingMethod);
     }
 
     addGift(gift){
