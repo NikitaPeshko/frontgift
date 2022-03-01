@@ -122,7 +122,7 @@ class ListUsers extends Component {
     }
 
     showOrders(id){
-        alert(`orders ${id}`);
+        
         localStorage.setItem('UserIDinOrder',id);
         
         const history=createBrowserHistory();

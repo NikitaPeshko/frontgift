@@ -1,9 +1,9 @@
 import React, { Component } from "react";
-import { Link, useParams,useSearchParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import GiftServices from "../services/GiftServices";
 import {  } from "history";
 import authToken from "../auth/authToken";
-import { useHistory } from "react-router-dom";
+
 import { createBrowserHistory } from "history";
 import UserService from "../services/UserService";
 
@@ -12,15 +12,15 @@ import UserService from "../services/UserService";
 
 
 
-class OrdersComponent extends Component {
+class GiftsInOrderComponent extends Component {
     constructor(props){
         super(props)
         
         this.state={
-            users:[],
             countOfGift:5,
             numberPage:1,
-            orders:[],
+            giftsInOrder:[],
+            totalAmount:0,
 
         }
 
@@ -38,15 +38,18 @@ class OrdersComponent extends Component {
     
 
     componentDidMount(){
-        const id=localStorage.getItem("UserIDinOrder");
+        const userid=localStorage.getItem("UserIDinOrder");
+        const orderId=localStorage.getItem("orderId");
 
-        let token=localStorage.getItem("jwtToken");
-        console.log(token);
-        UserService.showUserOrders(id).then(res=>{
+        UserService.showGiftsInOrder(userid,orderId).then(res=>{
             let info=res.data;
-            let orders=info._embedded.orderList;
-            console.log(orders);
-            this.setState({orders:orders})
+            const totalAmount=info.amount;
+            let gifts=info.giftsinorder;
+            this.setState({totalAmount});
+            this.setState({giftsInOrder:gifts})
+            console.log(gifts);
+            console.log(totalAmount);
+           // this.setState({orders:orders})
 
         });
     }
@@ -105,14 +108,8 @@ class OrdersComponent extends Component {
 
 
 
-    showCertificateInOrder(orderid){
-        alert(`orders ${orderid}`);
-        localStorage.setItem('orderId',orderid);
-        const userid=localStorage.getItem('UserIDinOrder');
+    showGiftsInOrder(id){
         
-        const history=createBrowserHistory();
-        history.push('/users/'+userid+'/orders/'+orderid);
-        history.go('/users/'+userid+'/orders/'+orderid);
     }
 
 
@@ -132,34 +129,27 @@ class OrdersComponent extends Component {
 
                         <thead>
                             <tr>
-                                <th>OrderID</th>
-                                <th>Date of order</th>
-                                <th>Tatal amount</th>
+                                <th>Name</th>
+                                <th>Cost</th>
+                                
          
                             </tr>
                         </thead>
                         <tbody>
                             
                             {
-                                this.state.orders.map(
-                                    order=>
-                                    <tr key={order.orderId}>
-                                        <td>{order.orderId}</td>
-                                        <td>{order.dataOfOrder}</td>
-                                        <td>{order.amount}</td>
-
-                                        <td>
-                                            <input type='button' className="btn btn-info" onClick={this.showCertificateInOrder.bind(this,order.orderId)} value='Certificates in order'/>                                       
-                                        </td>
+                                this.state.giftsInOrder.map(
+                                    user=>
+                                    <tr key={user.orderId}>
+                                        <td>{user.name}</td>
+                                        <td>{user.price}</td>
+      
                                     </tr>
                                 )
                             }
                         </tbody>
                     </table>
-
-                    <input type='button' className="btn btn-info" onClick={this.loadPrevGift} value='Load prev'/>
-                    <input type='button' className="btn btn-info" onClick={this.loadNextGift} value='Load next'/>
-                    
+                    <h2>Tatal amount:{this.state.totalAmount}</h2>
                 </div>
                 
 
@@ -170,4 +160,4 @@ class OrdersComponent extends Component {
     }
 }
 
-export default OrdersComponent
+export default GiftsInOrderComponent

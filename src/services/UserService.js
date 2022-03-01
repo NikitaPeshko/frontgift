@@ -50,6 +50,15 @@ class UserService{
         })
     }
 
+    showGiftsInOrder(userID,orderID){
+        const token=localStorage.getItem("jwtToken")
+        return axios.get(URL_FOR_SHOW_ORDERS+userID+'/orders/'+orderID,{
+            headers:{
+                'Authorization':`Bearer ${token}`
+            }
+        })
+    }
+
 
 
 
