@@ -11,6 +11,7 @@ import LoginComponent from './components/LoginComponent';
 import ListUsers from './components/ListUsers';
 import CartComponent from './components/Cart';
 import NoAcces from './components/NoAcces';
+import OrdersComponent from './components/OrdersComponent';
 
 
 function App() {
@@ -30,6 +31,7 @@ function App() {
               
 
               <Route path="/update-gift/:id" element={<Tempcomponent/>}></Route>
+              <Route path="/users/:id/orders" element={<OrdersComponent/>}></Route>
               <Route path="/login" element={<LoginComponent/>}></Route>
               <Route path="/noacces" element={<NoAcces/>}></Route>
               

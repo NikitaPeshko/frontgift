@@ -12,7 +12,7 @@ import UserService from "../services/UserService";
 
 
 
-class ListUsers extends Component {
+class OrdersComponent extends Component {
     constructor(props){
         super(props)
         
@@ -20,6 +20,7 @@ class ListUsers extends Component {
             users:[],
             countOfGift:5,
             numberPage:1,
+            orders:[],
 
         }
 
@@ -34,36 +35,23 @@ class ListUsers extends Component {
        
     
     }
+    
 
     componentDidMount(){
+        const id=localStorage.getItem("UserIDinOrder");
+
         let token=localStorage.getItem("jwtToken");
         console.log(token);
-        GiftServices.getUsers(token).then((res)=>{
+        UserService.showUserOrders(id).then(res=>{
             let info=res.data;
-           
-            let users=info._embedded.userDTOList;
-            
-            this.setState({users:users})
+            let orders=info._embedded.orderList;
+            console.log(orders);
+            this.setState({orders:orders})
 
         });
-        
-        
     }
 
-    addGift=()=>{
-        // const history = createBrowserHistory();
-        // history.push('/add-gift')
 
-    }
-    editGift=(id)=>{
-       // const params = useParams();
-      //  const [searchParams, setSearchParams] = useSearchParams();
-       // console.log(params.id);
-      
-    //    const history = createBrowserHistory();
-    //     history.push(`/update-gift/${id}`);
-
-    }
 
 
     countOfGidtOnPage=(event)=>{
@@ -123,11 +111,10 @@ class ListUsers extends Component {
 
     showOrders(id){
         alert(`orders ${id}`);
-        localStorage.setItem('UserIDinOrder',id);
-        
-        const history=createBrowserHistory();
-        history.push('/users/'+id+'/orders');
-        history.go('/users/'+id+'/orders');
+        UserService.showUserOrders(id).then(res=>{
+            const userOrders=res.data;
+            console.log(userOrders);
+        })
     }
 
 
@@ -140,51 +127,32 @@ class ListUsers extends Component {
         return(
             <div>
 
-                <h2 className="name-of-table">List of Users</h2>
-                <div className = "row">
-                     <input type="button" className="btn btn-primary" onClick={this.addGift} value='Add User'/>
-                
-                 </div>
-                
-                 <div className="row">
-              
-                 
-
-                 </div>
-                 
-                
+                <h2 className="name-of-table">Orders</h2>
 
                 <div className="row">
                     <table className="table table-striped table-bordered">
-                        
-
-
 
                         <thead>
                             <tr>
-                                <th>Name</th>
-                                <th>Email</th>
-                                <th>Login</th>
-                                <th>Role</th>
-                                <th>Actions</th>
-                             
+                                <th>OrderID</th>
+                                <th>Date of order</th>
+                                <th>Tatal amount</th>
+         
                             </tr>
                         </thead>
                         <tbody>
                             
                             {
-                                this.state.users.map(
+                                this.state.orders.map(
                                     user=>
-                                    <tr key={user.id}>
-                                        <td>{user.name}</td>
-                                        <td>{user.email}</td>
-                                        <td>{user.login}</td>
-                                        <td>{user.roleName}</td>
+                                    <tr key={user.orderId}>
+                                        <td>{user.orderId}</td>
+                                        <td>{user.dataOfOrder}</td>
+                                        <td>{user.amount}</td>
+                                    
                                         
                                 
                                         <td>
-                                            <Link className="btn btn-info" to={`/update-user/${user.id}`}>Edit</Link>
-                                            <input type='button' className="btn btn-danger" onClick={this.blockUserAccaount.bind(this,user.id)} value='Block user'/>
                                             <input type='button' className="btn btn-info" onClick={this.showOrders.bind(this,user.id)} value='Orders'/>                                       
                                         </td>
                                     </tr>
@@ -206,4 +174,4 @@ class ListUsers extends Component {
     }
 }
 
-export default ListUsers
+export default OrdersComponent

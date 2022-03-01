@@ -5,6 +5,7 @@ import axios from "axios";
 const URL_FOR_GET_FIND_USERID_BY_LOGIN='http://localhost:8080/users/finduseridbylogin';
 const URL_FOR_BYE_GIFTS='http://localhost:8080/users/buygift';
 const URL_FOR_BLOCK_USER='http://localhost:8080/users/';
+const URL_FOR_SHOW_ORDERS='http://localhost:8080/users/';
 
 
 class UserService{
@@ -37,6 +38,16 @@ class UserService{
             }
         });
 
+    }
+
+
+    showUserOrders(id){
+        const token=localStorage.getItem("jwtToken")
+        return axios.get(URL_FOR_SHOW_ORDERS+id+'/orders',{
+            headers:{
+                'Authorization':`Bearer ${token}`
+            }
+        })
     }
 
 

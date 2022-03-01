@@ -105,6 +105,7 @@ const CartComponent=()=>{
    
         UserService.byeGifts(giftsIDs, userID);
         alert("Succsess");
+        localStorage.removeItem('giftInCart');
      
         
        
