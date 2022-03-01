@@ -4,6 +4,7 @@ import axios from "axios";
 
 const URL_FOR_GET_FIND_USERID_BY_LOGIN='http://localhost:8080/users/finduseridbylogin';
 const URL_FOR_BYE_GIFTS='http://localhost:8080/users/buygift';
+const URL_FOR_BLOCK_USER='http://localhost:8080/users/';
 
 
 class UserService{
@@ -25,6 +26,17 @@ class UserService{
 
     getUserIDByLogin(login){
         return axios.get(URL_FOR_GET_FIND_USERID_BY_LOGIN+'?login='+login);
+    }
+
+
+    blockUser(id,token){
+        
+        return axios.delete(URL_FOR_BLOCK_USER+id,{
+            headers:{
+                'Authorization':`Bearer ${token}`
+            }
+        });
+
     }
 
 

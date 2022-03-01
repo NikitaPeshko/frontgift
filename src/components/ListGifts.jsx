@@ -64,7 +64,8 @@ class ListGift extends Component {
 
     addGift=()=>{
         const history = createBrowserHistory();
-        history.push('/add-gift')
+        history.push('/add-gift');
+        history.go('/add-gift');
 
     }
     editGift=(id)=>{
@@ -196,6 +197,20 @@ class ListGift extends Component {
         });
         
     }
+    deleteGift(id){
+        alert(`Are you sure id=${id}?`);
+        GiftServices.deleteGift(id).then(res=>{
+            alert("Succsesfully deleted")
+        }).catch((err)=>{
+            
+            const history = createBrowserHistory();
+            history.push('/noacces');
+            history.go('/noacces');
+            console.log("AXIOS: " +  err);
+            alert(err)
+          });
+
+    }
 
     sorting(event){
         
@@ -310,7 +325,7 @@ class ListGift extends Component {
                                         <td>{gift.lastUpdateDate}</td>
                                         <td>
                                             <Link className="btn btn-info" to={`/update-gift/${gift.id}`}>Edit</Link>
-                                            <Link className="btn btn-danger" to={`/delete-gift/${gift.id}`}>Delete</Link> 
+                                            <input type='button' className="btn btn-danger" onClick={this.deleteGift.bind(this,gift.id)} value='Delete'/>
                                             <input type='button' className="btn btn-info" onClick={this.addTocart.bind(this,gift.id,gift.name,gift.price)} value='In cart'/>
                                             {/* <Link className="btn btn-info" to={`/cart?id=${gift.id}`}>In cart</Link> */}
                                         </td>

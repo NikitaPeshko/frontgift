@@ -19,6 +19,7 @@ class AddGiftComponent extends Component{
             createDate:'',
             lastUpdateDate:'',
             tags:[],
+            tags2:[],
             currentTag:'',
 
         }
@@ -29,14 +30,28 @@ class AddGiftComponent extends Component{
 
     saveGift = (e) => {
         e.preventDefault();
-        let gift = {name: this.state.name, discription: this.state.discription, price: this.state.price, duration: this.state.duration,
-            createDate: this.state.createDate, lastUpdateDate: this.state.lastUpdateDate,listOfTag:this.state.tags};
-        console.log('gift => ' + JSON.stringify(gift));
+        
+        
 
-        GiftServices.addGift(gift).then(res=>{
+        let gift = {name: this.state.name, discription: this.state.discription, price: this.state.price, duration: this.state.duration,
+            createDate: this.state.createDate, lastUpdateDate: this.state.lastUpdateDate,listOfTag:this.state.tags2};
+        console.log('gift => ' + JSON.stringify(gift));
+        const token=localStorage.getItem('jwtToken');
+        
+
+        GiftServices.addGift(gift,token).then(res=>{
+            
             const history = createBrowserHistory();
             history.push('/gifts');
-        });
+            history.go('/gifts');
+        }).catch((err)=>{
+            
+            const history = createBrowserHistory();
+            history.push('/noacces');
+            history.go('/noacces');
+            console.log("AXIOS: " +  err);
+            alert(err)
+          });
     }
 
  
@@ -79,7 +94,22 @@ class AddGiftComponent extends Component{
     
         console.log(this.state.tags);
 
+    }
 
+    addTag2(){
+        let curtag=this.state.currentTag;
+        console.log(curtag);
+
+        let obj={
+            tagName:curtag,
+        }
+
+        let masTag=this.state.tags2;
+        masTag.push(obj);
+         console.log(masTag);
+        this.setState({tags2:masTag})
+    
+        console.log(this.state.tags2);
     }
 
     cancel(){
@@ -93,9 +123,6 @@ class AddGiftComponent extends Component{
 
         console.log(this);
 
-        
-      
-        
 
     }
 
@@ -109,11 +136,11 @@ class AddGiftComponent extends Component{
                             <div className = "card col-md-6 offset-md-3 offset-md-3">
                                 <h3 className="text-center">Add gift</h3>
                                 <div className = "card-body">
-                                    <form>
+                                    <form onSubmit={this.saveGift}>
                                         <div className = "form-group">
                                             <label> Name: </label>
-                                            <input placeholder="Name" name="name" className="form-control" 
-                                                value={this.state.name} onChange={this.changeNameHandler}/>
+                                            <input placeholder="Name"  name="name" className="form-control" 
+                                                value={this.state.name} onChange={this.changeNameHandler} />
                                         </div>
                                         <div className = "form-group">
                                             <label> Discription: </label>
@@ -137,23 +164,24 @@ class AddGiftComponent extends Component{
                                             <input placeholder="tag name" name="tag" className="form-control" 
                                                 value={this.state.currentTag} onChange={this.changeTagHandler}/>
 
-                                            <input type="button" onClick={this.addTag.bind(this)} value="Отправить" />
+                                            {/* <input type="button" onClick={this.addTag.bind(this)} value="Отправить" /> */}
+                                            <input type="button" onClick={this.addTag2.bind(this)} value="Add tag" />
                                                
                                     
                                         </div>
                                         <div>
                                     
-                                            {this.state.tags.map(tag=>{
+                                            {this.state.tags2.map(tag=>{
                                                 
-                                                return <TagComponent  tag={tag}/>
+                                                return <TagComponent  tag={tag.tagName}/>
                                                 
                                             })}
                                             
                                         </div>
 
                                        
-
-                                        <button className="btn btn-success" onClick={this.saveGift}>Save</button>
+                                        <input type='submit' className="btn btn-success" value='Save'/>
+                                        
                                         <button className="btn btn-danger" onClick={this.cancel.bind(this)} style={{marginLeft: "10px"}}>Cancel</button>
                                     </form>
                                 </div>

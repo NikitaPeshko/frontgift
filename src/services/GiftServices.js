@@ -3,6 +3,7 @@ import axios from "axios";
 
 
 const URL_FOR_POSTS='http://localhost:8080/gifts';
+
 const URL_FOR_UPDATE_PRICE='http://localhost:8080/gifts/changeprice'
 const URL_AUTH='http://localhost:8080/auth'
 const URL_FOR_GET_USER_ONLY_ADMIN='http://localhost:8080/users'
@@ -43,19 +44,29 @@ class GiftService{
         return axios.get(URL_FOR_POSTS+'?content='+content+'&page='+page+'&sortby='+sortBy+'&sort='+sortingMethod);
     }
 
-    addGift(gift){
-        return axios.post(URL_FOR_POSTS,gift);
+    addGift(gift,token){
+        return axios.post(URL_FOR_POSTS,gift,{
+            headers:{
+                'Authorization':`Bearer ${token}`
+            }
+        });
     }
 
     getGiftById(giftId){
         return axios.get(URL_FOR_POSTS+'/'+giftId);
     }
+
     updateGift(newprice, giftId){
+        axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('jwtToken')}`;
+        
         return axios.put(URL_FOR_UPDATE_PRICE + '/' + giftId+'?price='+newprice);
     }
 
-    deleteEmployee(employeeId){
-        return axios.delete(URL_FOR_POSTS + '/' + employeeId);
+    
+
+    deleteGift(giftId){
+        axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('jwtToken')}`;
+        return axios.delete(URL_FOR_POSTS + '/' + giftId);
     }
 
 }

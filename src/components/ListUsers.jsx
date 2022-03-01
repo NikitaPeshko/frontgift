@@ -5,6 +5,7 @@ import {  } from "history";
 import authToken from "../auth/authToken";
 import { useHistory } from "react-router-dom";
 import { createBrowserHistory } from "history";
+import UserService from "../services/UserService";
 
 
 
@@ -114,6 +115,15 @@ class ListUsers extends Component {
         this.loadGiftsFromDb(numberPage);
     }
 
+    blockUserAccaount(id){
+        const token=localStorage.getItem('jwtToken')
+        UserService.blockUser(id,token);
+        alert('succdesfully block user')
+    }
+
+
+
+
 
     
 
@@ -124,7 +134,7 @@ class ListUsers extends Component {
                 
                 <h2 className="name-of-table">List of Users</h2>
                 <div className = "row">
-                     <input type="button" className="btn btn-primary" onClick={this.addGift} value='Add Gift'/>
+                     <input type="button" className="btn btn-primary" onClick={this.addGift} value='Add User'/>
                 
                  </div>
                 
@@ -162,10 +172,11 @@ class ListUsers extends Component {
                                         <td>{user.email}</td>
                                         <td>{user.login}</td>
                                         <td>{user.roleName}</td>
+                                        <td>{user.notLocked}</td>
                                 
                                         <td>
                                             <Link className="btn btn-info" to={`/update-user/${user.id}`}>Edit</Link>
-                                            
+                                            <input type='button' className="btn btn-danger" onClick={this.blockUserAccaount.bind(this,user.id)} value='Block user'/>                                       
                                         </td>
                                     </tr>
                                 )

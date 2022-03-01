@@ -5,12 +5,12 @@ import FooterComponent from './components/FooterComponent';
 import {BrowserRouter as Router,Route,Routes} from 'react-router-dom'
 import ErrorComponent from './components/ErrorComponent';
 import AddGiftComponent from './components/AddGiftComponent';
-import UpdateComponent from './components/UpdateComponent';
 import Tempcomponent from './components/TempComponent';
 import ShowGift from './components/ShowGiftComponent';
 import LoginComponent from './components/LoginComponent';
 import ListUsers from './components/ListUsers';
 import CartComponent from './components/Cart';
+import NoAcces from './components/NoAcces';
 
 
 function App() {
@@ -30,9 +30,8 @@ function App() {
               
 
               <Route path="/update-gift/:id" element={<Tempcomponent/>}></Route>
-              <Route path="/bye-gift/:id" element={<Tempcomponent/>}></Route>
-              <Route path="/delete-gift/:id" element={<Tempcomponent/>}></Route>
               <Route path="/login" element={<LoginComponent/>}></Route>
+              <Route path="/noacces" element={<NoAcces/>}></Route>
               
               <Route path="*" element={<ErrorComponent/>}></Route>
             </Routes>

@@ -17,7 +17,7 @@ const Tempcomponent=()=>{
     const [createDate, setCreateDate] = useState();
     const [lastUpdateDate, setLastUpdateDate] = useState();
     const [currentTag, setCurrentTag] = useState('');
-    const [tags, setTags] = useState(['nikita','masha']);
+    const [tags, setTags] = useState([]);
     const [loader,setLoader]=useState(false);
 
 
@@ -31,8 +31,16 @@ const Tempcomponent=()=>{
             setDuration(gift.duration);
             setDiscription(gift.discription);
             setLastUpdateDate(gift.lastUpdateDate);
-         //   setTags(gift.listOfTag);
-        })
+            
+            // let tags=[];
+            // gift.listOfTag.map(tag=>{
+            //     tags.push(tag.tagName)
+
+            // })
+            
+            // setTags(tags);
+        });
+        
         
         
     }
@@ -44,12 +52,14 @@ const Tempcomponent=()=>{
             createDate: createDate, lastUpdateDate: lastUpdateDate};
         console.log('gift => ' + JSON.stringify(gift));
         console.log('id => ' + JSON.stringify(id));
+        
        
         GiftServices.updateGift(gift.price, id).then( res => {
             setTimeout(() => {
                 setTimeout(() => {
                     setLoader(false);
                     history.push(`/gifts/${id}`);
+                    history.go(`/gifts/${id}`);
                 }, 5000);
                 setLoader(true);
                 
@@ -58,7 +68,14 @@ const Tempcomponent=()=>{
             
             
             
-        });
+        }).catch((err)=>{
+            
+            const history = createBrowserHistory();
+            history.push('/noacces');
+            history.go('/noacces');
+            console.log("AXIOS: " +  err);
+            alert(err)
+          });
         
     }
  
@@ -169,7 +186,7 @@ const Tempcomponent=()=>{
                                 
                                          {tags.map(tag=>{
                                             
-                                            return <TagComponent  tag={tag}/>
+                                            return <TagComponent  tag={tag.tagname}/>
                                             
                                         })} 
                                         
