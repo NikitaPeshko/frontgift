@@ -13,6 +13,7 @@ import CartComponent from './components/Cart';
 import NoAcces from './components/NoAcces';
 import OrdersComponent from './components/OrdersComponent';
 import GiftsInOrderComponent from './components/GiftsInOrderComponent';
+import AddUsersComponent from './components/AddUsersComponent';
 
 
 function App() {
@@ -27,6 +28,8 @@ function App() {
               <Route path="/users" element={<ListUsers/>}></Route>
               <Route path="/gifts" element={<ListGift/>}></Route>
               <Route path="/add-gift" element={<AddGiftComponent/>}></Route>
+              <Route path="/add-user" element={<AddUsersComponent/>}></Route>
+              <Route path="/registration" element={<AddUsersComponent/>}></Route>
               <Route path='/gifts/:id' element={<ShowGift/>} ></Route>  
               <Route path='/cart' element={<CartComponent/>} ></Route>  
               

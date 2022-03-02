@@ -39,6 +39,15 @@ class HeaderComponent extends Component{
         history.go('/login');
 
     }
+
+    openSignUpPage=()=>{
+        const history=createBrowserHistory();
+        history.push('/registration');
+        history.go('/registration');
+
+    }
+
+
     logOut=()=>{
         const history=createBrowserHistory();
         history.push('/');
@@ -63,6 +72,8 @@ class HeaderComponent extends Component{
                    <div>
                        {this.state.logInButton &&
                         <input type="button" class="btn btn-outline-success my-2 my-sm-0" onClick={this.openLoginPage} value='Log in'/>}
+                        {this.state.logInButton &&
+                        <input type="button" class="btn btn-outline-success my-2 my-sm-0" onClick={this.openSignUpPage} value='Sign up'/>}
                         
                         {this.state.logOutButton &&
                         <input type="button" class="btn btn-outline-success my-2 my-sm-0" onClick={this.logOut} value='Log out'/>}

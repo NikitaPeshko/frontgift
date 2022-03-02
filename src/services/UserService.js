@@ -6,6 +6,7 @@ const URL_FOR_GET_FIND_USERID_BY_LOGIN='http://localhost:8080/users/finduseridby
 const URL_FOR_BYE_GIFTS='http://localhost:8080/users/buygift';
 const URL_FOR_BLOCK_USER='http://localhost:8080/users/';
 const URL_FOR_SHOW_ORDERS='http://localhost:8080/users/';
+const URL_FOR_REGISTRATION='http://localhost:8080/register'
 
 
 class UserService{
@@ -57,6 +58,10 @@ class UserService{
                 'Authorization':`Bearer ${token}`
             }
         })
+    }
+
+    registrationUser(credentials){
+        return axios.post(URL_FOR_REGISTRATION,credentials)
     }
 
 

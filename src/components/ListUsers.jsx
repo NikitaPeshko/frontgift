@@ -50,9 +50,10 @@ class ListUsers extends Component {
         
     }
 
-    addGift=()=>{
-        // const history = createBrowserHistory();
-        // history.push('/add-gift')
+    addUser=()=>{
+        const history = createBrowserHistory();
+        history.push('/add-user');
+        history.go('/add-user');
 
     }
     editGift=(id)=>{
@@ -142,7 +143,7 @@ class ListUsers extends Component {
 
                 <h2 className="name-of-table">List of Users</h2>
                 <div className = "row">
-                     <input type="button" className="btn btn-primary" onClick={this.addGift} value='Add User'/>
+                     <input type="button" className="btn btn-primary" onClick={this.addUser} value='Add User'/>
                 
                  </div>
                 
