@@ -114,7 +114,8 @@ class AddGiftComponent extends Component{
 
     cancel(){
         const history = createBrowserHistory();
-        history.push('/gifts')
+        history.push('/gifts');
+        history.go('/gifts');
       
     }
 
@@ -140,22 +141,24 @@ class AddGiftComponent extends Component{
                                         <div className = "form-group">
                                             <label> Name: </label>
                                             <input placeholder="Name"  name="name" className="form-control" 
-                                                value={this.state.name} onChange={this.changeNameHandler} />
+                                                value={this.state.name} onChange={this.changeNameHandler} 
+                                                minLength='2' required/>
                                         </div>
                                         <div className = "form-group">
                                             <label> Discription: </label>
                                             <input placeholder="discription" name="discription" className="form-control" 
-                                                value={this.state.discription} onChange={this.changeDiscriptionHandler}/>
+                                                value={this.state.discription} onChange={this.changeDiscriptionHandler} 
+                                                minLength='2' required/>
                                         </div>
                                         <div className = "form-group">
                                             <label> Price: </label>
-                                            <input placeholder="Price" name="price" className="form-control" 
-                                                value={this.state.price} onChange={this.changePriceHandler}/>
+                                            <input  type="number" placeholder="Price" name="price" className="form-control" 
+                                                value={this.state.price} onChange={this.changePriceHandler} min="0" required/>
                                         </div>
                                         <div className = "form-group">
                                             <label> Duration: </label>
-                                            <input placeholder="Duration:exp 5" name="duration" className="form-control" 
-                                                value={this.state.duration} onChange={this.changeDurationHandler}/>
+                                            <input  type="number" placeholder="Duration:exp 5" name="duration" className="form-control" 
+                                                value={this.state.duration} onChange={this.changeDurationHandler} min="1" required/>
                                         </div>
 
 
