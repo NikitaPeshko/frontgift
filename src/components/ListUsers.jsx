@@ -36,9 +36,11 @@ class ListUsers extends Component {
     }
 
     componentDidMount(){
+        localStorage.setItem('numberOfPageUsers',1);
+        const page=localStorage.getItem('numberOfPageUsers');
         let token=localStorage.getItem("jwtToken");
         console.log(token);
-        GiftServices.getUsers(token).then((res)=>{
+        GiftServices.getUsers(token,page,5).then((res)=>{
             let info=res.data;
            
             let users=info._embedded.userDTOList;
@@ -56,64 +58,58 @@ class ListUsers extends Component {
         history.go('/add-user');
 
     }
-    editGift=(id)=>{
-       // const params = useParams();
-      //  const [searchParams, setSearchParams] = useSearchParams();
-       // console.log(params.id);
-      
-    //    const history = createBrowserHistory();
-    //     history.push(`/update-gift/${id}`);
 
-    }
-
-
-    countOfGidtOnPage=(event)=>{
-        let newCountOfProdcut=event.target.value;
-        this.setState({countOfGift:newCountOfProdcut})
-        GiftServices.getUsers(newCountOfProdcut,this.state.numberPage).then(res=>{
-            this.setState({users:res.data})
-
-        });
     
-    }
 
-    loadGiftsFromDb=(numberPage)=>{
-        GiftServices.getUsers().then(res=>{
-            if(res.data==0){
+    loadUsersFromDb=(numberPage)=>{
+        
+        let token=localStorage.getItem("jwtToken");
+        GiftServices.getUsers(token,numberPage,5).then(res=>{
+            
+            let info=res.data;
+            console.log(info)
+
+
+            let temp =info;
+            console.log(temp.hasOwnProperty('_embedded'))
+            
+            
+            if(temp.hasOwnProperty('_embedded')){
+                let users=info._embedded.userDTOList;
+                console.log(users)
                 
-                this.setState({numberPage:numberPage-1})
-                return;
-            
+                if(users!==undefined){
+                    this.setState({users:users})
+                }
+
+            }else{
+                localStorage.setItem("numberOfPageUsers",localStorage.getItem("numberOfPageUsers")-1)
             }
-            console.log(res.data);
+
             
-            this.setState({users:res.data})
+            
             
         });
 
     }
 
     loadNextGift=()=>{
-        let numberPage=this.state.numberPage;
-        let newPage=numberPage+1;
-        this.setState({numberPage:newPage});
-        this.loadGiftsFromDb(numberPage);
+        localStorage.setItem('numberOfPageUsers',Number(localStorage.getItem("numberOfPageUsers"))+1);
+        let page=localStorage.getItem('numberOfPageUsers')
+        
+        
+        this.loadUsersFromDb(page);
     }
 
     loadPrevGift=()=>{
-        let numberPage=this.state.numberPage;
-        let newPage;
-        if(numberPage==1){
-            newPage=numberPage;
-
-        }else{
-            newPage=numberPage-1;
-
-        }
-        console.log(newPage);
-        
-        this.setState({numberPage:newPage});
-        this.loadGiftsFromDb(numberPage);
+        localStorage.setItem('numberOfPageUsers',localStorage.getItem("numberOfPageUsers")-1);
+        let page=localStorage.getItem('numberOfPageUsers');
+        if(page<1){
+            
+            page=1;
+            localStorage.setItem('numberOfPageUsers',1);
+        };
+        this.loadUsersFromDb(page);
     }
 
     blockUserAccaount(id){

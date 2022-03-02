@@ -13,8 +13,8 @@ const URL_FOR_FIND_GIFT_BY_NAME='http://localhost:8080/gifts/findbyname?name=';
 
 class GiftService{
 
-    getUsers(token){
-        return axios.get(URL_FOR_GET_USER_ONLY_ADMIN,{
+    getUsers(token,page,content){
+        return axios.get(URL_FOR_GET_USER_ONLY_ADMIN+'/?page='+page+'&content='+content,{
             headers:{
                 'Authorization':`Bearer ${token}`
             }

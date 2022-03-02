@@ -81,7 +81,8 @@ class ListGift extends Component {
 
     countOfGidtOnPage=(event)=>{
         let newCountOfProdcut=event.target.value;
-        this.setState({countOfGift:newCountOfProdcut})
+        this.setState({countOfGift:newCountOfProdcut});
+        this.setState({numberPage:1});
         GiftServices.getGiftsWithParam(newCountOfProdcut,this.state.numberPage).then(res=>{
             this.setState({gifts:res.data})
 
@@ -274,13 +275,6 @@ class ListGift extends Component {
 
                  </form>
                     
-                 
-
-
-
-        
-                 
-                
                  <div className="row">
                 
                  <select value={this.state.countOfGift} class="form-select" aria-label="Default select example" onChange={this.countOfGidtOnPage}>
@@ -325,6 +319,7 @@ class ListGift extends Component {
                                         <td>{gift.lastUpdateDate}</td>
                                         <td>
                                             <Link className="btn btn-info" to={`/update-gift/${gift.id}`}>Edit</Link>
+                                            <Link className="btn btn-info" to={`/gifts/${gift.id}`}>Show</Link>
                                             <input type='button' className="btn btn-danger" onClick={this.deleteGift.bind(this,gift.id)} value='Delete'/>
                                             <input type='button' className="btn btn-info" onClick={this.addTocart.bind(this,gift.id,gift.name,gift.price)} value='In cart'/>
                                             {/* <Link className="btn btn-info" to={`/cart?id=${gift.id}`}>In cart</Link> */}
