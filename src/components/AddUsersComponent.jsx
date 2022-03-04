@@ -14,9 +14,17 @@ class AddUsersComponent extends Component{
 
          
             name: '',
+            dirtyName:false,
+            errorName:"Name cant be blank",
             login:'',
+            dirtyLogin:false,
+            errorLogin:"Login cant be blank",
             password:'',
+            dirtyPassword:false,
+            errorPassword:"Password cant be blank",
             email:'',
+            dirtyEmail:false,
+            errorEmail:"Email cant be blank",
             loginAlreadyExist:'true'
 
         }
@@ -34,6 +42,23 @@ class AddUsersComponent extends Component{
             password:this.state.password,
 
         };
+        if (this.state.name.length<2){
+            this.setState({dirtyName:true})
+            return false;
+        }
+        if (this.state.email.length<3){
+            this.setState({dirtyEmail:true})
+            return false;
+        }
+        if (this.state.login.length<4){
+            this.setState({dirtyLogin:true})
+            return false;
+        }
+        if (this.state.password.length<4){
+            this.setState({dirtyPassword:true})
+            return false;
+        }
+        
 
         UserService.registrationUser(credentials).then(res=>{
             
@@ -62,19 +87,65 @@ class AddUsersComponent extends Component{
         this.state.lastUpdateDate=new Date();
         
         this.setState({name: event.target.value});
+        if(event.target.value.length<2 || event.target.value.length>20){
+            this.setState({errorName:"Name length cant be less than 2 and more than 20 "})
+        }else{
+            this.setState({errorName:""});
+        }
     }
+    
 
     changeEmailHandler= (event) => {
         this.setState({email: event.target.value});
+        const re =/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        if (!re.test(String(event.target.value).toLowerCase())){
+            this.setState({errorEmail:"Incorrect email see example 'admin@mail.com'"})
+        }else{
+            this.setState({errorEmail:""});
+
+        }
+        
     }
 
     changeLoginHandler= (event) => {
         this.setState({login: event.target.value});
+
+        if(event.target.value.length<4 || event.target.value.length>20){
+            this.setState({errorLogin:"Login length cant be less than 4 and more than 20 "})
+        }else{
+            this.setState({errorLogin:""});
+        }
     }
 
 
     changePasswordHandler= (event) => {
         this.setState({password: event.target.value});
+
+        if(event.target.value.length<4 || event.target.value.length>20){
+            this.setState({errorPassword:"Password length cant be less than 4 and more than 20 "})
+        }else{
+            this.setState({errorPassword:""});
+        }
+    }
+
+    blurHandler= (event) => {
+        switch (event.target.name){
+            case 'name':
+                this.setState({dirtyName:true});
+                break;
+            case 'login':
+                this.setState({dirtyLogin:true});
+                break;
+            case 'password':
+                this.setState({dirtyPassword:true});
+                break;
+            case 'email':
+                this.setState({dirtyEmail:true});
+                break;
+                
+
+        }
+        
     }
 
     cancel(){
@@ -82,6 +153,8 @@ class AddUsersComponent extends Component{
         history.push('/gifts');
         history.go('/gifts'); 
     }
+
+
   
     render() {
         return (
@@ -96,24 +169,29 @@ class AddUsersComponent extends Component{
                                 <div className = "card-body">
                                     <form onSubmit={this.saveGift}>
                                         <div className = "form-group">
+                                            {(this.state.dirtyName && this.state.errorName) && <div style={{color:'red'}} >{this.state.errorName}</div>}
                                             <label> Name: </label>
-                                            <input placeholder="Name"  name="name" className="form-control" 
-                                                value={this.state.name} onChange={this.changeNameHandler} required/>
+                                            <input onBlur={e=>this.blurHandler(e)} type='text' placeholder="Name"  name="name" className="form-control" 
+                                                value={this.state.name} onChange={this.changeNameHandler} />
                                         </div>
+                                        
                                         <div className = "form-group">
+                                        {(this.state.dirtyEmail && this.state.errorEmail) && <div style={{color:'red'}} >{this.state.errorEmail}</div>}
                                             <label> Email: </label>
-                                            <input type='email' placeholder="temp@gmail.com" name="discription" className="form-control" 
-                                                value={this.state.email} onChange={this.changeEmailHandler} required/>
+                                            <input onBlur={e=>this.blurHandler(e)} type='email' placeholder="temp@gmail.com" name="email" className="form-control" 
+                                                value={this.state.email} onChange={this.changeEmailHandler} />
                                         </div>
                                         <div className = "form-group">
+                                        {(this.state.dirtyLogin && this.state.errorLogin) && <div style={{color:'red'}} >{this.state.errorLogin}</div>}
                                             <label> Login: </label>
-                                            <input placeholder="login" name="price" className="form-control" 
-                                                value={this.state.login} onChange={this.changeLoginHandler} required/>
+                                            <input onBlur={e=>this.blurHandler(e)} placeholder="login" name="login" className="form-control" 
+                                                value={this.state.login} onChange={this.changeLoginHandler} />
                                         </div>
                                         <div className = "form-group">
+                                        {(this.state.dirtyPassword && this.state.errorPassword) && <div style={{color:'red'}} >{this.state.errorPassword}</div>}
                                             <label> Password: </label>
-                                            <input type='password' placeholder="password" name="duration" className="form-control" 
-                                                value={this.state.password} onChange={this.changePasswordHandler} minLength="4" required/>
+                                            <input onBlur={e=>this.blurHandler(e)} type='password' placeholder="password" name="password" className="form-control" 
+                                                value={this.state.password} onChange={this.changePasswordHandler}/>
                                         </div>
 
                                        
