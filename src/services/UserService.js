@@ -22,7 +22,7 @@ class UserService{
         
         alert(url.slice(0,url.length-1));
         
-      //  return axios.post(url)
+        return axios.post(url)
 
     }
 

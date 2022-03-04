@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Link, useParams,useSearchParams } from "react-router-dom";
 import GiftServices from "../services/GiftServices";
 import { createBrowserHistory } from "history";
+import {UserService} from "../services/UserService"
 
 
 
@@ -20,6 +21,7 @@ class ListGift extends Component {
             sortingMethod:'asc',
             sortBy:'default',
             sortingStatus:0,    //0-no sorting; 1 - asc ;2 - desc
+            isAdmin:false,
 
         }
 
@@ -31,11 +33,24 @@ class ListGift extends Component {
     }
 
     componentDidMount(){
+        let token=localStorage.getItem("jwtToken");
+        GiftServices.getUsers(token,1,5).then((res)=>{
+            localStorage.setItem("isAdmin",true);
+            this.setState({isAdmin:true});
+            
+        }).catch(err=>{
+            localStorage.setItem("isAdmin",false);
+            this.setState({isAdmin:false});
+        });
         GiftServices.getGiftsWithParam(this.state.countOfGift,this.state.numberPage,this.state.sortBy,this.state.sortingMethod).then((res)=>{
             
             this.setState({gifts:res.data})
+            
 
         });
+        
+        
+        
         
         
     }
@@ -262,7 +277,7 @@ class ListGift extends Component {
                 
                 <h2 className="name-of-table">List of Gifts</h2>
                 <div className = "row">
-                     <input type="button" className="btn btn-primary" onClick={this.addGift} value='Add Gift'/>
+                    {this.state.isAdmin && <input type="button" className="btn btn-primary" onClick={this.addGift} value='Add Gift'/>}
                     
                  </div >
 
@@ -318,9 +333,9 @@ class ListGift extends Component {
                                         <td>{gift.createDate}</td>
                                         <td>{gift.lastUpdateDate}</td>
                                         <td>
-                                            <Link className="btn btn-info" to={`/update-gift/${gift.id}`}>Edit</Link>
+                                        {this.state.isAdmin && <Link className="btn btn-info" to={`/update-gift/${gift.id}`}>Edit</Link>}
                                             <Link className="btn btn-info" to={`/gifts/${gift.id}`}>Show</Link>
-                                            <input type='button' className="btn btn-danger" onClick={this.deleteGift.bind(this,gift.id)} value='Delete'/>
+                                            {this.state.isAdmin &&<input type='button' className="btn btn-danger" onClick={this.deleteGift.bind(this,gift.id)} value='Delete'/>}
                                             <input type='button' className="btn btn-info" onClick={this.addTocart.bind(this,gift.id,gift.name,gift.price)} value='In cart'/>
                                             {/* <Link className="btn btn-info" to={`/cart?id=${gift.id}`}>In cart</Link> */}
                                         </td>
