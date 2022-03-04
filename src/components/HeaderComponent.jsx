@@ -77,7 +77,7 @@ class HeaderComponent extends Component{
                         
                         {this.state.logOutButton &&
                         <input type="button" class="btn btn-outline-success my-2 my-sm-0" onClick={this.logOut} value='Log out'/>}
-                        <Link className="btn btn-info" to={'/cart'}>Cart</Link>
+                        <Link className="btn btn-info" to={'/cart2'}>Cart</Link>
                    </div>
                   
                    
