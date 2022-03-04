@@ -125,3 +125,14 @@
   
 }
 
+.error-message{
+  color:red;
+  opacity: 0;
+  animation: ani 2.5s forwards;
+
+}
+@keyframes ani {
+  0% {opacity: 0;}
+  100% {opacity: 1;}
+}
+

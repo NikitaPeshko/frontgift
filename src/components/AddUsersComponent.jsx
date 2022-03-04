@@ -169,26 +169,26 @@ class AddUsersComponent extends Component{
                                 <div className = "card-body">
                                     <form onSubmit={this.saveGift}>
                                         <div className = "form-group">
-                                            {(this.state.dirtyName && this.state.errorName) && <div style={{color:'red'}} >{this.state.errorName}</div>}
+                                            {(this.state.dirtyName && this.state.errorName) && <div className="error-message" >{this.state.errorName}</div>}
                                             <label> Name: </label>
                                             <input onBlur={e=>this.blurHandler(e)} type='text' placeholder="Name"  name="name" className="form-control" 
                                                 value={this.state.name} onChange={this.changeNameHandler} />
                                         </div>
                                         
                                         <div className = "form-group">
-                                        {(this.state.dirtyEmail && this.state.errorEmail) && <div style={{color:'red'}} >{this.state.errorEmail}</div>}
+                                        {(this.state.dirtyEmail && this.state.errorEmail) && <div className="error-message" >{this.state.errorEmail}</div>}
                                             <label> Email: </label>
                                             <input onBlur={e=>this.blurHandler(e)} type='email' placeholder="temp@gmail.com" name="email" className="form-control" 
                                                 value={this.state.email} onChange={this.changeEmailHandler} />
                                         </div>
                                         <div className = "form-group">
-                                        {(this.state.dirtyLogin && this.state.errorLogin) && <div style={{color:'red'}} >{this.state.errorLogin}</div>}
+                                        {(this.state.dirtyLogin && this.state.errorLogin) && <div className="error-message" >{this.state.errorLogin}</div>}
                                             <label> Login: </label>
                                             <input onBlur={e=>this.blurHandler(e)} placeholder="login" name="login" className="form-control" 
                                                 value={this.state.login} onChange={this.changeLoginHandler} />
                                         </div>
                                         <div className = "form-group">
-                                        {(this.state.dirtyPassword && this.state.errorPassword) && <div style={{color:'red'}} >{this.state.errorPassword}</div>}
+                                        {(this.state.dirtyPassword && this.state.errorPassword) && <div className="error-message" >{this.state.errorPassword}</div>}
                                             <label> Password: </label>
                                             <input onBlur={e=>this.blurHandler(e)} type='password' placeholder="password" name="password" className="form-control" 
                                                 value={this.state.password} onChange={this.changePasswordHandler}/>
